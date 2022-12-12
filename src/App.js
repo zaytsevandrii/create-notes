@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import "./App.scss"
+import Note from "./Note"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [note, setNote] = useState([{ id: 1 }, { id: 2 }, { id: 3 }])
+    const [text,setText]= useState('')
+
+    const onDelete=(id)=>{
+        setNote(note.filter(el=>el.id !== id))
+    }
+    const onAdd=()=>{
+        const newId=Math.floor(Math.random()*10000)
+        setNote([...note, { id: newId}])
+    }
+    return (
+        <div className="App">
+            <button className="add" id="add" onClick={onAdd}>
+                <i className="fas fa-plus"></i>Add Note
+            </button>
+            {note.map((el) => (
+                <Note key={el.id} onDelete={onDelete} {...el} text={text}/>
+            ))}
+        </div>
+    )
 }
 
-export default App;
+export default App
